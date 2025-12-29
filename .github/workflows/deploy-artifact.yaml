@@ -125,6 +125,9 @@ jobs:
         ######################################################## 
         # 5- Display structure
         ######################################################### 
+      - name: Lowercase repo name
+        run: echo "REPO_LOWERCASE=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+
       - name : Build and push image using action
         uses : docker/build-push-action@v4
         with :
@@ -135,7 +138,8 @@ jobs:
             JAR_FILE=${{ github.event.client_payload.artifact_name }}
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           push : true # Push image to registry, false by deafult.
-          tags : ghcr.io/${{ github.repository }}:${{ github.sha }} # The image ful name, include repository, user, image name and tag 
+          #tags : ghcr.io/${{ github.repository }}:${{ github.sha }} # The image ful name, include repository, user, image name and tag 
+          tags : ghcr.io/${{ env.REPO_LOWERCASE }}:${{ github.sha }}
     
 
 
