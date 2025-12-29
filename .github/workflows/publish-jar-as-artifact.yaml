@@ -44,7 +44,7 @@ jobs:
           java-version: '17'
 
       - name: Cache local Maven repository
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -52,22 +52,22 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: build with maven
-        #The "SNAPSHOT" term means that the build is a snapshot of your code at a given time    
+        #The "SNAPSHOT" term means that the build is a snapshot of your code at a given time
         #The --batch-mode flag indicates that the build should be run without any user interaction
-        #(Avoid caching versions of your own code)The --update-snapshots flag tells Maven to check for any updated snapshots of dependencies and use those instead of the versions specified in the project's pom.xml file. 
+        #(Avoid caching versions of your own code)The --update-snapshots flag tells Maven to check for any updated snapshots of dependencies and use those instead of the versions specified in the project's pom.xml file.
         #The package argument tells Maven to package the project into a distributable format, such as a JAR or WAR file.
         run: |
-           mvn clean test package -DskipTests=true --batch-mode --update-snapshots      
+           mvn clean test package -DskipTests=true --batch-mode --update-snapshots
            echo ls -R target/
-           echo ls -la 
-    
-             
-   ######################################################## 
+           echo ls -la
+
+
+   ########################################################
       # 4- publish it as artifact
-      ######################################################## 
+      ########################################################
       - name: Publish Package
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
          name: artifactjar
          path: ${{ github.workspace }}/target/${{ env.ARTIFACT_NAME }}   
