@@ -122,9 +122,9 @@ jobs:
         - name: Display structure of downloaded files
           run: ls -R dockerBuildContext
 
-          ######################################################
+          #####################################################
           # 5- Display structure
-          ######################################################
+          #####################################################
         - name: Set image tag
           id: image_tag
           run: |
