@@ -129,7 +129,12 @@ jobs:
           id: image_tag
           run: |
             REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-            echo "image_tag=ghcr.io/${REPO_LOWER}:${{ github.sha }}" >> $GITHUB_OUTPUT
+            IMAGE_TAG="ghcr.io/${REPO_LOWER}:${{ github.sha }}"
+            echo "Image tag will be: ${IMAGE_TAG}"
+            echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
+
+        - name: Debug image tag
+          run: echo "Using image tag - ${{ steps.image_tag.outputs.image_tag }}"
 
         - name: Build and push image using action
           uses: docker/build-push-action@v4
