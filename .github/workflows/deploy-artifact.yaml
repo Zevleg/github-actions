@@ -125,10 +125,11 @@ jobs:
           ####################################################### 
           # 5- Display structure
           #######################################################
-        - name: Lowercase repo name
+        - name: Set image tag
+          id: image_tag
           run: |
-            echo "REPO_OWNER=$(echo $GITHUB_REPOSITORY_OWNER | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-            echo "IMAGE_NAME=customer-back" >> $GITHUB_ENV
+            REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+            echo "image_tag=ghcr.io/${REPO_LOWER}:${{ github.sha }}" >> $GITHUB_OUTPUT
 
         - name: Build and push image using action
           uses: docker/build-push-action@v4
@@ -139,5 +140,5 @@ jobs:
               JAR_FILE=${{ github.event.client_payload.artifact_name }}
               DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             push: true
-            tags: ghcr.io/${{ env.REPO_OWNER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            tags: ${{ steps.image_tag.outputs.image_tag }}
           
