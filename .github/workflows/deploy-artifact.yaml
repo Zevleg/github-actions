@@ -10,9 +10,9 @@ jobs:
       actions: read    
     steps:
 
-      ########################################################
+      #######################################################
       # 1- Retrive parameters from payload and download artifact
-      ########################################################
+      #######################################################
       - run: echo ${{ github.event.client_payload.checksum }}
 
       - name: Retrieve Payload
@@ -140,6 +140,3 @@ jobs:
           push : true # Push image to registry, false by deafult.
           #tags : ghcr.io/${{ github.repository }}:${{ github.sha }} # The image ful name, include repository, user, image name and tag 
           tags : ghcr.io/${{ env.REPO_LOWERCASE }}:${{ github.sha }}
-    
-
-
