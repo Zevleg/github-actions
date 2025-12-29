@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       #############################################################
-      # 2- dowload code from feature branch , setup java 8 and check that source code is buildable
+      # 1- Download code from feature branch, setup Java 17 and check that source code is buildable
       ########################################################
       - uses: actions/checkout@v3
         with:
