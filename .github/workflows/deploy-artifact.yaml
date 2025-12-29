@@ -10,9 +10,9 @@ jobs:
       actions: read    
     steps:
 
-      ########################################################
+      #########################################################
       # 1- Retrive parameters from payload and download artifact
-      ########################################################
+      #########################################################
       - run: echo ${{ github.event.client_payload.checksum }}
 
       - name: Retrieve Payload
