@@ -122,9 +122,9 @@ jobs:
         - name: Display structure of downloaded files
           run: ls -R dockerBuildContext
 
-          ######################################################## 
+          ####################################################### 
           # 5- Display structure
-          ######################################################### 
+          #######################################################
         - name: Lowercase repo name
           run: |
             echo "REPO_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
