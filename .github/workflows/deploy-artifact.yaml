@@ -127,20 +127,17 @@ jobs:
           ######################################################### 
         - name: Lowercase repo name
           run: |
-            IMAGE_NAME="customer-back"
-            echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_ENV
             echo "REPO_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+            echo "IMAGE_NAME=customer-back" >> $GITHUB_ENV
 
-        - name : Build and push image using action
-          uses : docker/build-push-action@v4
-          with :
-            context : ./dockerBuildContext # Context where Dockerfile and artifact(.jar, .war ...) lives
-            file : ./dockerBuildContext/Dockerfile # Where  Dockerfile is it.
-            #Parameters that our Dockerfile need.
+        - name: Build and push image using action
+          uses: docker/build-push-action@v4
+          with:
+            context: ./dockerBuildContext
+            file: ./dockerBuildContext/Dockerfile
             build-args: |
               JAR_FILE=${{ github.event.client_payload.artifact_name }}
               DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            push : true # Push image to registry, false by deafult.
-            #tags : ghcr.io/${{ github.repository }}:${{ github.sha }} # The image ful name, include repository, user, image name and tag 
-            tags : ghcr.io/${{ env.REPO_OWNER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            push: true
+            tags: ghcr.io/${{ env.REPO_OWNER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           
