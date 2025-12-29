@@ -1,5 +1,7 @@
-name: Publish jar as artifact 
+name: Publish jar as artifact
 on:
+  push:
+    branches: [ develop ]
   repository_dispatch:
     types: [publish-artifact-event]
 jobs:
@@ -11,18 +13,21 @@ jobs:
       contents: write
       pull-requests: write
       
-    steps:      
+    steps:
       - name: Debug Payload
-        run: |     
-         echo ${{ github.event.client_payload.base_branch }}
-               
+        run: |
+         echo "Event name: ${{ github.event_name }}"
+         echo "Branch from payload: ${{ github.event.client_payload.base_branch }}"
+         echo "Branch from ref: ${{ github.ref_name }}"
+
       ##########################################################
       # 1- Dolowload source code from default branch in order to retrive Dockerfile, and apload it as docker build context
       ########################################################
-      
-      - uses: actions/checkout@v3  
+
+      - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.client_payload.base_branch }}
+          # Use client_payload.base_branch for repository_dispatch, or github.ref_name for push events
+          ref: ${{ github.event.client_payload.base_branch || github.ref_name }}
           fetch-depth: 0      
 
       - name: check last hashid
